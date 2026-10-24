@@ -26,6 +26,7 @@ Only the Samsung driver has been tested on real hardware so far.
 - Power on via Wake-on-LAN, sleep timer
 - Siri & Shortcuts, Home/Lock Screen widgets, Live Activity / Dynamic Island, Apple Watch app
 - Themes, reorderable app shortcuts that hide apps not installed on the TV
+- Trending movies and shows with where to watch, opening the title's app on the TV (data from TMDB and JustWatch)
 
 ## Build
 
@@ -39,6 +40,14 @@ IPHONE_ID=<your device id> ./install.sh
 ```
 
 Set `DEVELOPMENT_TEAM` in `project.yml` to your own team.
+
+The Trending Now strip and What to Watch page use [TMDB](https://www.themoviedb.org). Create a free API key there and put its read access token in a `Secrets.xcconfig` next to `project.yml` (it's git-ignored):
+
+```
+TMDB_TOKEN = <your API read access token>
+```
+
+Without it, the movie sections are simply hidden.
 
 Streaming services appear as brand-colored text tiles. For a personal build with the official app icons, run `python3 scripts/fetch_app_icons.py Sources/Shared/Assets.xcassets`. Those icons are trademarks and are not part of this repo.
 
