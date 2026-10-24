@@ -16,6 +16,9 @@ targets:
     type: application
     platform: iOS
     sources: [Sources/Shared, Sources/App]
+    configFiles:
+      Debug: Config.xcconfig
+      Release: Config.xcconfig
     dependencies:
       - target: TVRemoteWidgets
       - target: TVRemoteWatch

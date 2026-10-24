@@ -1,0 +1,3 @@
+// Shared build settings. Put TMDB_TOKEN in Secrets.xcconfig (git-ignored) to enable trending movies.
+TMDB_TOKEN =
+#include? "Secrets.xcconfig"

@@ -61,6 +61,8 @@ struct RemoteView: View {
     private var theme: Theme { prefs.theme }
 
     var body: some View {
+        // Scrolls so the trending strip fits below the controls on smaller phones.
+        ScrollView {
         VStack(spacing: 14) {
             header
             appStrip
@@ -90,10 +92,13 @@ struct RemoteView: View {
                 key("speaker.slash.fill", .mute)
             }
             sources
-            Spacer(minLength: 0)
+            TrendingCarousel()
         }
         .padding(.horizontal, 24)
         .padding(.top, 8)
+        .padding(.bottom, 12)
+        }
+        .scrollIndicators(.hidden)
         .background(LinearGradient(colors: theme.background, startPoint: .top, endPoint: .bottom).ignoresSafeArea())
         .sheet(isPresented: $showingPicker) { TVPicker() }
         .sheet(isPresented: $showingKeyboard) { KeyboardSheet() }
