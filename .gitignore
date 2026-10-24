@@ -1,0 +1,9 @@
+build/
+*.xcodeproj/
+DerivedData/
+.DS_Store
+xcuserdata/
+# Official streaming-app logos are trademarks: fetch them locally with scripts/fetch_app_icons.py.
+Sources/Shared/Assets.xcassets/app-*.imageset/
+# Local secrets (TMDB token)
+Secrets.xcconfig
