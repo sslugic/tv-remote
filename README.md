@@ -1,4 +1,4 @@
-# Couch Remote
+# Simply Remote
 
 A universal Wi-Fi TV remote for iPhone. It finds TVs on your network by itself and controls them over their local network APIs: no IR blaster, no cloud account.
 

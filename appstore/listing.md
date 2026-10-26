@@ -1,10 +1,10 @@
-# Couch Remote – App Store listing
+# Simply Remote: Universal TV – App Store listing
 
 ## App information
-- **Name:** Couch Remote
-- **Subtitle (30):** Universal Wi-Fi TV remote
+- **Name:** Simply Remote: Universal TV
+- **Subtitle (30):** Wi-Fi remote for any smart TV
 - **Bundle ID:** co.slaven.tvremote
-- **SKU:** couch-remote-ios
+- **SKU:** simply-remote-ios
 - **Primary language:** English (U.S.)
 - **Primary category:** Utilities
 - **Secondary category:** Entertainment
@@ -21,7 +21,7 @@
 Lost the remote? Control your Samsung, LG, Roku, Google TV, Sony, Vizio, Fire TV or Panasonic TV from your iPhone. No setup, no account.
 
 ## Description
-Couch Remote turns your iPhone into a remote for the smart TV on your Wi-Fi. Open the app and it finds your TV by itself — no IR blaster, no account, no cloud.
+Simply Remote turns your iPhone into a remote for the smart TV on your Wi-Fi. Open the app and it finds your TV by itself — no IR blaster, no account, no cloud.
 
 WORKS WITH
 • Samsung smart TVs (2016 and later)
@@ -50,16 +50,16 @@ See what's trending and popular right now, find out which service is streaming i
 MORE WAYS TO CONTROL
 • Lock Screen and Dynamic Island controls
 • Home Screen and Lock Screen widgets
-• Siri and Shortcuts: "Watch Netflix with Couch Remote", "Mute the TV with Couch Remote"
+• Siri and Shortcuts: "Watch Netflix with Simply Remote", "Mute the TV with Simply Remote"
 • Apple Watch remote
 • Four themes
 
 PRIVATE BY DESIGN
-Couch Remote talks only to the TVs on your own network. No accounts, no tracking, no ads.
+Simply Remote talks only to the TVs on your own network. No accounts, no tracking, no ads.
 
 Some TVs need a one-time step: choose Allow on the TV (Samsung, LG, Fire TV) or enter the code shown on screen (Google TV, Vizio). Fire TV needs ADB debugging turned on in Developer options. Sony Bravia needs a Pre-Shared Key set under IP control.
 
-Movie and show data from TMDB. This product uses the TMDB API but is not endorsed or certified by TMDB. Streaming availability by JustWatch. Couch Remote is not affiliated with any TV maker or streaming service; all trademarks belong to their owners.
+Movie and show data from TMDB. This product uses the TMDB API but is not endorsed or certified by TMDB. Streaming availability by JustWatch. Simply Remote is not affiliated with any TV maker or streaming service; all trademarks belong to their owners.
 
 ## Keywords (100)
 tv,remote,control,smart tv,samsung,lg,roku,vizio,fire tv,android tv,google tv,sony,wifi,universal
@@ -71,7 +71,7 @@ Data Not Collected.
 Uses only standard encryption (HTTPS/TLS), exempt. `ITSAppUsesNonExemptEncryption` = NO is set in the build.
 
 ## App Review notes
-Couch Remote controls smart TVs over the local Wi-Fi network, so a compatible TV on the same network is needed to try the remote buttons. No account or login is required.
+Simply Remote controls smart TVs over the local Wi-Fi network, so a compatible TV on the same network is needed to try the remote buttons. No account or login is required.
 
 Without a TV you can still review:
 • The home page and Settings (themes, reorder and hide streaming app shortcuts).

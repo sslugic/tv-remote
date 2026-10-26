@@ -1,7 +1,7 @@
 import Foundation
 
 enum AppInfo {
-    /// "TV Remote" in personal builds, "Couch Remote" in the App Store build.
+    /// "TV Remote" in personal builds, "Simply Remote" in the App Store build.
     static var name: String {
         Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String ?? "TV Remote"
     }
