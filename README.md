@@ -24,7 +24,7 @@ Only the Samsung driver has been tested on real hardware so far.
 - One-tap streaming app shortcuts (Netflix, YouTube, Prime Video, Disney+, Hulu, HBO Max, Peacock, Apple TV, Paramount+)
 - Type on the TV with the phone keyboard
 - Power on via Wake-on-LAN, sleep timer
-- Siri & Shortcuts, Home/Lock Screen widgets, Live Activity / Dynamic Island, Apple Watch app
+- Siri & Shortcuts, Home/Lock Screen widgets, Live Activity / Dynamic Island
 - Themes, reorderable app shortcuts that hide apps not installed on the TV
 - Trending movies and shows with where to watch, opening the title's app on the TV (data from TMDB and JustWatch)
 

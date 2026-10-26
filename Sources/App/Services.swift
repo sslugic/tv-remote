@@ -1,6 +1,5 @@
 import ActivityKit
 import Foundation
-import WatchConnectivity
 
 /// Starts, updates and ends the remote's Live Activity (Lock Screen and Dynamic Island controls).
 @MainActor final class LiveActivity: ObservableObject {
@@ -43,36 +42,4 @@ import WatchConnectivity
     private func state(_ remote: RemoteController) -> RemoteActivityAttributes.ContentState {
         .init(tvName: remote.current?.name ?? "TV", connected: remote.status == .connected, sleepAt: remote.sleepAt)
     }
-}
-
-/// Receives button presses from the Apple Watch app and runs them on the TV.
-/// The watch can't hold the TV connection itself, so the phone does it (iOS wakes the app in the background).
-final class WatchBridge: NSObject, WCSessionDelegate {
-    static let shared = WatchBridge()
-
-    func start() {
-        guard WCSession.isSupported() else { return }
-        WCSession.default.delegate = self
-        WCSession.default.activate()
-    }
-
-    func session(_ session: WCSession, didReceiveMessage message: [String: Any], replyHandler: @escaping ([String: Any]) -> Void) {
-        Task { @MainActor in
-            let remote = RemoteController.shared
-            do {
-                if let raw = message["key"] as? String, let key = RemoteKey(rawValue: raw) {
-                    if key == .power { remote.send(.power) } else { try await remote.whenConnected { $0.send(key) } }
-                } else if let raw = message["app"] as? String, let app = StreamingApp(rawValue: raw) {
-                    try await remote.whenConnected { $0.launch(app) }
-                }
-                replyHandler(["ok": true, "tv": remote.current?.name ?? "TV"])
-            } catch {
-                replyHandler(["ok": false, "error": error.localizedDescription])
-            }
-        }
-    }
-
-    func session(_ session: WCSession, activationDidCompleteWith state: WCSessionActivationState, error: Error?) {}
-    func sessionDidBecomeInactive(_ session: WCSession) {}
-    func sessionDidDeactivate(_ session: WCSession) { session.activate() }
 }

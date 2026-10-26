@@ -9,10 +9,6 @@ struct RemoteApp: App {
 
     private enum Screen { case splash, home, remote }
 
-    init() {
-        WatchBridge.shared.start()
-    }
-
     var body: some Scene {
         WindowGroup {
             ZStack {

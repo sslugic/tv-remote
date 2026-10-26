@@ -51,7 +51,6 @@ MORE WAYS TO CONTROL
 • Lock Screen and Dynamic Island controls
 • Home Screen and Lock Screen widgets
 • Siri and Shortcuts: "Watch Netflix with Simply Remote TV", "Mute the TV with Simply Remote TV"
-• Apple Watch remote
 • Four themes
 
 PRIVATE BY DESIGN
