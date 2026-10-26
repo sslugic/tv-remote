@@ -7,3 +7,5 @@ xcuserdata/
 Sources/Shared/Assets.xcassets/app-*.imageset/
 # Local secrets (TMDB token)
 Secrets.xcconfig
+# Screenshots show third-party movie artwork; kept out of the public repo.
+appstore/screenshots/
