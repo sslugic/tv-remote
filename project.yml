@@ -43,6 +43,7 @@ targets:
       configs:
         AppStore:
           INFOPLIST_FILE: AppStore-Info.plist
+          PRODUCT_NAME: SimplyRemote
           INFOPLIST_KEY_CFBundleDisplayName: Simply Remote TV
           INFOPLIST_KEY_NSLocalNetworkUsageDescription: Simply Remote TV finds and controls the TVs on your Wi-Fi.
           SWIFT_ACTIVE_COMPILATION_CONDITIONS: APP_STORE
@@ -64,6 +65,7 @@ targets:
           INFOPLIST_KEY_CFBundleDisplayName: Simply Remote TV
           SWIFT_ACTIVE_COMPILATION_CONDITIONS: APP_STORE
           MARKETING_VERSION: "1.0"
+          PRODUCT_NAME: SimplyRemoteWidgets
   TVRemoteWatch:
     type: application
     platform: watchOS
@@ -81,3 +83,4 @@ targets:
         AppStore:
           INFOPLIST_KEY_CFBundleDisplayName: Simply Remote TV
           MARKETING_VERSION: "1.0"
+          PRODUCT_NAME: SimplyRemoteWatch
