@@ -24,11 +24,15 @@ struct SettingsView: View {
                     Picker("Pad", selection: $prefs.padStyle) {
                         ForEach(PadStyle.allCases) { Text($0.label).tag($0) }
                     }
-                    Toggle("iPhone volume buttons control the TV", isOn: $prefs.volumeButtons)
+                    if !AppInfo.isAppStore {
+                        Toggle("iPhone volume buttons control the TV", isOn: $prefs.volumeButtons)
+                    }
                 } header: {
                     Text("Remote")
                 } footer: {
-                    Text("While the remote is open, the side buttons change the TV's volume instead of the phone's.")
+                    if !AppInfo.isAppStore {
+                        Text("While the remote is open, the side buttons change the TV's volume instead of the phone's.")
+                    }
                 }
 
                 Section {
@@ -64,9 +68,11 @@ struct SettingsView: View {
                 }
 
                 Section("Siri & Shortcuts") {
-                    Label("\"Watch Netflix with TV Remote\"", systemImage: "mic")
-                    Label("\"Mute the TV with TV Remote\"", systemImage: "mic")
-                    Label("\"Start a sleep timer with TV Remote\"", systemImage: "mic")
+                    Label("\"Watch Netflix with \(AppInfo.name)\"", systemImage: "mic")
+                    Label("\"Mute the TV with \(AppInfo.name)\"", systemImage: "mic")
+                    if !AppInfo.isAppStore {
+                        Label("\"Start a sleep timer with \(AppInfo.name)\"", systemImage: "mic")
+                    }
                     Text("These also appear in the Shortcuts app and can be put on the Action button.")
                         .font(.footnote).foregroundStyle(.secondary)
                 }

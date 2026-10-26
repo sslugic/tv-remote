@@ -91,7 +91,7 @@ import Foundation
     }
 
     private func startPairing() async {
-        let body: [String: Any] = ["DEVICE_ID": deviceID, "DEVICE_NAME": "TV Remote"]
+        let body: [String: Any] = ["DEVICE_ID": deviceID, "DEVICE_NAME": AppInfo.name]
         let json = await request("PUT", "/pairing/start", body: body, auth: false)
         if let token = (json?["ITEM"] as? [String: Any])?["PAIRING_REQ_TOKEN"] as? Int {
             pairingToken = token

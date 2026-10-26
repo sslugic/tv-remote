@@ -36,7 +36,7 @@ struct RemoteWidget: Widget {
                     LinearGradient(colors: [Color(red: 0.13, green: 0.08, blue: 0.28), .black], startPoint: .top, endPoint: .bottom)
                 }
         }
-        .configurationDisplayName("TV Remote")
+        .configurationDisplayName(AppInfo.name)
         .description("Volume, mute, play/pause and your streaming apps.")
         .supportedFamilies([.systemSmall, .systemMedium])
     }

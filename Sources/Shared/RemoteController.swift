@@ -113,7 +113,7 @@ import Network
             if case .failed(let message) = status { throw RemoteError(message) }
             try await Task.sleep(for: .milliseconds(150))
         }
-        guard status == .connected else { throw RemoteError("Couldn't reach the TV. Open TV Remote to check it.") }
+        guard status == .connected else { throw RemoteError("Couldn't reach the TV. Open \(AppInfo.name) to check it.") }
         action(self)
     }
 

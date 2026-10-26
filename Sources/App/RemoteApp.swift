@@ -137,7 +137,7 @@ struct RemoteView: View {
     }
 
     private func updateVolumeButtons() {
-        if prefs.volumeButtons && phase == .active { volumeButtons.start() } else { volumeButtons.stop() }
+        if prefs.volumeButtons && phase == .active && !AppInfo.isAppStore { volumeButtons.start() } else { volumeButtons.stop() }
     }
 
     private var header: some View {
@@ -188,7 +188,9 @@ struct RemoteView: View {
                 prefs.padStyle = prefs.padStyle == .dpad ? .trackpad : .dpad
             }
             tool("keyboard", "Type") { showingKeyboard = true }
-            tool("moon.zzz", sleepLabel, active: remote.sleepAt != nil) { showingSleep = true }
+            if !AppInfo.isAppStore {
+                tool("moon.zzz", sleepLabel, active: remote.sleepAt != nil) { showingSleep = true }
+            }
             tool("platter.filled.top.iphone", "Island", active: activity.isRunning) { activity.toggle(remote) }
         }
     }

@@ -31,7 +31,7 @@ import Foundation
         Task {
             let status = await soap("X_SendKey", args: "<X_KeyEvent>\(code(for: key))</X_KeyEvent>")
             if status == 400 || status == 401 || status == 403 || status == 500 {
-                onStatus?(.failed("This Panasonic needs encrypted pairing, which TV Remote doesn't support yet."))
+                onStatus?(.failed("This Panasonic needs encrypted pairing, which \(AppInfo.name) doesn't support yet."))
             }
         }
     }

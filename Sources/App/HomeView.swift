@@ -19,7 +19,7 @@ struct SplashView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 28, style: .continuous))
                     .shadow(color: .purple.opacity(0.6), radius: 24)
                     .scaleEffect(appeared ? 1 : 0.7)
-                Text("TV Remote")
+                Text(AppInfo.name)
                     .font(.system(size: 28, weight: .bold, design: .rounded))
                     .foregroundStyle(.white)
                     .opacity(appeared ? 1 : 0)
@@ -44,7 +44,7 @@ struct HomeView: View {
             VStack(alignment: .leading, spacing: 22) {
                 HStack(alignment: .top) {
                     VStack(alignment: .leading, spacing: 6) {
-                        Text("TV Remote")
+                        Text(AppInfo.name)
                             .font(.system(size: 34, weight: .bold, design: .rounded))
                         Text(tvLine)
                             .font(.subheadline)

@@ -115,7 +115,7 @@ import Security
         switch state {
         case .ready:
             if phase == .pairing {
-                write(pairingMessage { $0.message(10) { $0.string(1, "atvremote"); $0.string(2, "TV Remote") } })
+                write(pairingMessage { $0.message(10) { $0.string(1, "atvremote"); $0.string(2, AppInfo.name) } })
             }
         case .failed(let error), .waiting(let error):
             fail(error.localizedDescription)

@@ -1,5 +1,22 @@
 import Foundation
 
+enum AppInfo {
+    /// "TV Remote" in personal builds, "Couch Remote" in the App Store build.
+    static var name: String {
+        Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String ?? "TV Remote"
+    }
+
+    /// The App Store build leaves out the background-audio sleep timer and the side volume button takeover,
+    /// which App Review doesn't allow (guidelines 2.5.4 and 2.5.9).
+    static var isAppStore: Bool {
+        #if APP_STORE
+        true
+        #else
+        false
+        #endif
+    }
+}
+
 enum RemoteKey: String, CaseIterable {
     case power, home, back, input
     case up, down, left, right, ok

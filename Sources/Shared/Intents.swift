@@ -101,12 +101,14 @@ struct RemoteShortcuts: AppShortcutsProvider {
             shortTitle: "Mute TV",
             systemImageName: "speaker.slash"
         )
+        #if !APP_STORE
         AppShortcut(
             intent: SleepTimerIntent(),
             phrases: ["Start a sleep timer with \(.applicationName)"],
             shortTitle: "TV Sleep Timer",
             systemImageName: "moon.zzz"
         )
+        #endif
     }
 }
 
