@@ -80,7 +80,7 @@ Without a TV you can still review:
 
 Movie and show data: the What to Watch section uses The Movie Database (TMDB) API under TMDB's free API terms. Simply Remote is free, with no ads, in-app purchases or subscriptions, and earns no revenue from TMDB content, so no commercial agreement is required. As TMDB's terms require, the app shows the TMDB logo (smaller than our own branding) and the notice "This application uses TMDB and the TMDB APIs but is not endorsed, certified, or otherwise approved by TMDB." in Settings → About & Credits and on the What to Watch page, and the TMDB logo next to Trending Now. Posters and artwork are served from TMDB's image API under those terms and belong to their owners. Streaming availability is JustWatch data provided through TMDB and is credited to JustWatch in the app.
 
-The Local Network permission is used only to find and control TVs. The app was tested on a Samsung UN65RU7100 (2019). Streaming services appear as plain text buttons; no third-party logos are used in the app.
+The Local Network permission is used only to find and control TVs. The app was tested on a Samsung UN65RU7100 (2019). Streaming services appear as plain text buttons; the only third-party logo shown is TMDB's, as their API terms require.
 
 ## Screenshots (6.9", 1320 × 2868)
 `appstore/screenshots/1-remote.png` … `6-home.png`
