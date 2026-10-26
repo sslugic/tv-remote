@@ -34,7 +34,7 @@ Requires Xcode 16+ and [XcodeGen](https://github.com/yonaskolb/XcodeGen).
 
 ```bash
 xcodegen generate
-xcodebuild -project TVRemote.xcodeproj -scheme TVRemote -configuration Release \
+xcodebuild -project SimplyRemote.xcodeproj -scheme SimplyRemote -configuration Release \
   -destination generic/platform=iOS -derivedDataPath build -allowProvisioningUpdates build
 IPHONE_ID=<your device id> ./install.sh
 ```

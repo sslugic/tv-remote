@@ -1,4 +1,4 @@
-name: TVRemote
+name: SimplyRemote
 options:
   bundleIdPrefix: co.slaven
   deploymentTarget:
@@ -17,7 +17,7 @@ settings:
     CURRENT_PROJECT_VERSION: "1"
     SWIFT_VERSION: "5.0"
 targets:
-  TVRemote:
+  SimplyRemote:
     type: application
     platform: iOS
     sources: [Sources/Shared, Sources/App]
@@ -26,8 +26,8 @@ targets:
       Release: Config.xcconfig
       AppStore: Config.xcconfig
     dependencies:
-      - target: TVRemoteWidgets
-      - target: TVRemoteWatch
+      - target: SimplyRemoteWidgets
+      - target: SimplyRemoteWatch
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: co.slaven.tvremote
@@ -43,12 +43,11 @@ targets:
       configs:
         AppStore:
           INFOPLIST_FILE: AppStore-Info.plist
-          PRODUCT_NAME: SimplyRemote
           INFOPLIST_KEY_CFBundleDisplayName: Simply Remote TV
           INFOPLIST_KEY_NSLocalNetworkUsageDescription: Simply Remote TV finds and controls the TVs on your Wi-Fi.
           SWIFT_ACTIVE_COMPILATION_CONDITIONS: APP_STORE
           MARKETING_VERSION: "1.0"
-  TVRemoteWidgets:
+  SimplyRemoteWidgets:
     type: app-extension
     platform: iOS
     sources: [Sources/Shared, Sources/Widgets]
@@ -65,8 +64,7 @@ targets:
           INFOPLIST_KEY_CFBundleDisplayName: Simply Remote TV
           SWIFT_ACTIVE_COMPILATION_CONDITIONS: APP_STORE
           MARKETING_VERSION: "1.0"
-          PRODUCT_NAME: SimplyRemoteWidgets
-  TVRemoteWatch:
+  SimplyRemoteWatch:
     type: application
     platform: watchOS
     sources: [Sources/Watch]
@@ -83,4 +81,3 @@ targets:
         AppStore:
           INFOPLIST_KEY_CFBundleDisplayName: Simply Remote TV
           MARKETING_VERSION: "1.0"
-          PRODUCT_NAME: SimplyRemoteWatch

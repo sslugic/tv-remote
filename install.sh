@@ -3,4 +3,4 @@
 # Usage: IPHONE_ID=<device id> ./install.sh   (unlock the phone first)
 cd "$(dirname "$0")"
 : "${IPHONE_ID:?Set IPHONE_ID to the device identifier of your iPhone}"
-xcrun devicectl device install app --device "$IPHONE_ID" build/Build/Products/Release-iphoneos/TVRemote.app
+xcrun devicectl device install app --device "$IPHONE_ID" build/Build/Products/Release-iphoneos/SimplyRemote.app
