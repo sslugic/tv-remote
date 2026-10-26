@@ -49,6 +49,8 @@ TMDB_TOKEN = <your API read access token>
 
 Without it, the movie sections are simply hidden.
 
+TMDB's API is free for non-commercial use with attribution. The app shows the TMDB logo and TMDB's required notice (*"This application uses TMDB and the TMDB APIs but is not endorsed, certified, or otherwise approved by TMDB."*) in Settings → About & Credits, on the What to Watch page and next to Trending Now. Streaming availability is JustWatch data supplied through TMDB and is credited to JustWatch.
+
 Streaming services appear as brand-colored text tiles. For a personal build with the official app icons, run `python3 scripts/fetch_app_icons.py Sources/Shared/Assets.xcassets`. Those icons are trademarks and are not part of this repo.
 
 ## Privacy

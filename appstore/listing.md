@@ -8,7 +8,7 @@
 - **Primary language:** English (U.S.)
 - **Primary category:** Utilities
 - **Secondary category:** Entertainment
-- **Content rights:** Uses third-party content (movie and show listings and artwork from TMDB, under TMDB's API terms)
+- **Content rights:** Yes — third-party content (movie and show listings and artwork from TMDB), used under TMDB's free non-commercial API terms with the required attribution
 - **Age rating:** 4+ (no objectionable content; no unrestricted web access)
 - **Price:** Free, all regions
 
@@ -59,7 +59,7 @@ Simply Remote talks only to the TVs on your own network. No accounts, no trackin
 
 Some TVs need a one-time step: choose Allow on the TV (Samsung, LG, Fire TV) or enter the code shown on screen (Google TV, Vizio). Fire TV needs ADB debugging turned on in Developer options. Sony Bravia needs a Pre-Shared Key set under IP control.
 
-Movie and show data from TMDB. This product uses the TMDB API but is not endorsed or certified by TMDB. Streaming availability by JustWatch. Simply Remote is not affiliated with any TV maker or streaming service; all trademarks belong to their owners.
+Movie and show data from TMDB. This application uses TMDB and the TMDB APIs but is not endorsed, certified, or otherwise approved by TMDB. Streaming availability by JustWatch. Simply Remote is not affiliated with any TV maker or streaming service; all trademarks belong to their owners.
 
 ## Keywords (100)
 tv,remote,control,smart tv,samsung,lg,roku,vizio,fire tv,android tv,google tv,sony,wifi,universal
@@ -77,6 +77,8 @@ Without a TV you can still review:
 • The home page and Settings (themes, reorder and hide streaming app shortcuts).
 • Remote screen → Trending Now → See all: the What to Watch page and title details, with streaming availability (TMDB/JustWatch data).
 • The TV picker (tap the TV name at the top of the remote): it searches the local network for supported TVs.
+
+Movie and show data: the What to Watch section uses The Movie Database (TMDB) API under TMDB's free API terms. Simply Remote is free, with no ads, in-app purchases or subscriptions, and earns no revenue from TMDB content, so no commercial agreement is required. As TMDB's terms require, the app shows the TMDB logo (smaller than our own branding) and the notice "This application uses TMDB and the TMDB APIs but is not endorsed, certified, or otherwise approved by TMDB." in Settings → About & Credits and on the What to Watch page, and the TMDB logo next to Trending Now. Posters and artwork are served from TMDB's image API under those terms and belong to their owners. Streaming availability is JustWatch data provided through TMDB and is credited to JustWatch in the app.
 
 The Local Network permission is used only to find and control TVs. The app was tested on a Samsung UN65RU7100 (2019). Streaming services appear as plain text buttons; no third-party logos are used in the app.
 

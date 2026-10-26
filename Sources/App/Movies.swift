@@ -142,6 +142,12 @@ struct TrendingCarousel: View {
             VStack(alignment: .leading, spacing: 8) {
                 HStack {
                     Text("TRENDING NOW").font(.caption2.weight(.bold)).foregroundStyle(.secondary)
+                    Image("tmdb-logo-short")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(height: 8)
+                        .opacity(0.8)
+                        .accessibilityLabel("Data from TMDB")
                     Spacer()
                     Button { browsing = true } label: {
                         HStack(spacing: 2) { Text("See all"); Image(systemName: "chevron.right") }
@@ -240,9 +246,7 @@ struct BrowseView: View {
                     ProgressView().padding(.top, 60)
                 }
 
-                Text("Movie data from TMDB. This product uses the TMDB API but is not endorsed or certified by TMDB. Streaming availability by JustWatch.")
-                    .font(.caption2).foregroundStyle(.secondary)
-                    .multilineTextAlignment(.center)
+                MovieCredits()
                     .padding(.top, 24)
             }
             .padding(.horizontal, 16)
@@ -325,8 +329,7 @@ struct TitleDetail: View {
                     ProgressView()
                 }
 
-                Text("Streaming availability by JustWatch. Data from TMDB.")
-                    .font(.caption2).foregroundStyle(.secondary)
+                MovieCredits(compact: true)
             }
             .padding(20)
         }
@@ -353,5 +356,39 @@ struct TitleDetail: View {
                 .controlSize(.small)
             }
         }
+    }
+}
+
+// MARK: - Attribution
+
+/// The credits TMDB's API terms require (their logo, smaller than ours, and their exact notice),
+/// plus JustWatch, which supplies TMDB's streaming availability data.
+struct MovieCredits: View {
+    var compact = false
+
+    static let tmdbNotice = "This application uses TMDB and the TMDB APIs but is not endorsed, certified, or otherwise approved by TMDB."
+
+    var body: some View {
+        VStack(alignment: compact ? .leading : .center, spacing: 8) {
+            Link(destination: URL(string: "https://www.themoviedb.org")!) {
+                Image("tmdb-logo-short")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(height: compact ? 10 : 12)
+                    .accessibilityLabel("The Movie Database (TMDB)")
+            }
+            Text(Self.tmdbNotice)
+            HStack(spacing: 4) {
+                Text("Streaming availability by")
+                Link("JustWatch", destination: URL(string: "https://www.justwatch.com")!)
+            }
+            if !compact {
+                Text("Movie and show artwork belongs to its respective owners and is provided through the TMDB API.")
+            }
+        }
+        .font(.caption2)
+        .foregroundStyle(.secondary)
+        .multilineTextAlignment(compact ? .leading : .center)
+        .frame(maxWidth: .infinity, alignment: compact ? .leading : .center)
     }
 }

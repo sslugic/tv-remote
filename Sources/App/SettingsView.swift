@@ -67,6 +67,30 @@ struct SettingsView: View {
                     Text("Drag to reorder. Apps that aren't installed on the current TV are hidden automatically.")
                 }
 
+                Section {
+                    HStack(alignment: .top, spacing: 12) {
+                        Image("tmdb-logo-square")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 44)
+                            .accessibilityLabel("The Movie Database (TMDB)")
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text("Movie and show data").font(.subheadline.weight(.semibold))
+                            Text("Trending titles, posters and details come from The Movie Database (TMDB).")
+                                .font(.footnote).foregroundStyle(.secondary)
+                        }
+                    }
+                    Text(MovieCredits.tmdbNotice).font(.footnote)
+                    Link("themoviedb.org", destination: URL(string: "https://www.themoviedb.org")!).foregroundStyle(Color.accentColor)
+                    Text("Streaming availability (where to watch) is provided by JustWatch.").font(.footnote)
+                    Link("justwatch.com", destination: URL(string: "https://www.justwatch.com")!).foregroundStyle(Color.accentColor)
+                    Text("\(AppInfo.name) is free, has no ads or purchases, and isn't affiliated with any TV maker or streaming service. All trademarks and artwork belong to their owners.")
+                        .font(.footnote).foregroundStyle(.secondary)
+                    Link("Privacy policy", destination: URL(string: "https://sslugic.github.io/tv-remote/privacy.html")!).foregroundStyle(Color.accentColor)
+                } header: {
+                    Text("About & Credits")
+                }
+
                 Section("Siri & Shortcuts") {
                     Label("\"Watch Netflix with \(AppInfo.name)\"", systemImage: "mic")
                     Label("\"Mute the TV with \(AppInfo.name)\"", systemImage: "mic")
