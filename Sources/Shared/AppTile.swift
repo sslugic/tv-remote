@@ -19,8 +19,10 @@ struct AppTile: View {
                         .font(.system(size: size * 0.2, weight: .heavy, design: .rounded))
                         .foregroundStyle(app.textColor)
                         .multilineTextAlignment(.center)
-                        .minimumScaleFactor(0.6)
-                        .padding(4)
+                        // Shrink rather than break a word across lines.
+                        .lineLimit(app.shortLabel.contains("\n") ? 2 : 1)
+                        .minimumScaleFactor(0.5)
+                        .padding(5)
                 }
             }
         }

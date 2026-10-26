@@ -153,6 +153,13 @@ final class LocalTLS: NSObject, URLSessionDelegate {
         return URLSession(configuration: config, delegate: LocalTLS(), delegateQueue: nil)
     }()
 
+    /// For connections that wait on the person at the TV (pairing prompts), so they aren't cut off after 5 seconds.
+    static let patientSession: URLSession = {
+        let config = URLSessionConfiguration.default
+        config.timeoutIntervalForRequest = 60
+        return URLSession(configuration: config, delegate: LocalTLS(), delegateQueue: nil)
+    }()
+
     func urlSession(
         _ session: URLSession,
         didReceive challenge: URLAuthenticationChallenge,

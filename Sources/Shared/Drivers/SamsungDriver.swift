@@ -36,7 +36,8 @@ import Foundation
 
         let waitingForAllow = store["token"] == nil
         onStatus?(waitingForAllow ? .waitingForAllow : .connecting)
-        let task = LocalTLS.session.webSocketTask(with: comps.url!)
+        // While the TV shows its Allow prompt it holds the handshake open, so give the person time to answer.
+        let task = (waitingForAllow ? LocalTLS.patientSession : LocalTLS.session).webSocketTask(with: comps.url!)
         self.task = task
         task.resume()
         receive(on: task)
