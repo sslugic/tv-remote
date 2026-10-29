@@ -146,6 +146,16 @@ struct Promo: Identifiable {
             colors: [Color(red: 0.45, green: 0.20, blue: 0.02), Color(red: 0.10, green: 0.06, blue: 0.04)],
             accent: Color(red: 1.0, green: 0.55, blue: 0.10)
         ),
+        Promo(
+            id: "undertone",
+            name: "Undertone",
+            tagline: "Your quiet meeting copilot",
+            detail: "Explains jargon from your own workspace, suggests answers and remembers every call. For Mac.",
+            image: "promo-undertone",
+            url: URL(string: "https://getundertone.app")!,
+            colors: [Color(red: 0.20, green: 0.20, blue: 0.45), Color(red: 0.04, green: 0.04, blue: 0.07)],
+            accent: Color(red: 0.51, green: 0.55, blue: 0.97)
+        ),
     ]
 }
 
