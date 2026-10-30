@@ -13,6 +13,9 @@ import Foundation
     private var connected = false
     /// Keys pressed while (re)connecting, sent once the TV accepts the connection.
     private var pending: [String] = []
+    /// Text waiting to go to the TV keyboard, sent once typing pauses.
+    private var typedText: String?
+    private var typingDelay: Task<Void, Never>?
     private var heartbeat: Task<Void, Never>?
     private var connectTimeout: Task<Void, Never>?
     private var timeoutRetries = 0
@@ -68,6 +71,15 @@ import Foundation
     }
 
     func send(_ key: RemoteKey) {
+        // Enter right after typing: deliver the text first so the search uses all of it.
+        if key == .ok, typedText != nil {
+            flushTyping()
+            Task {
+                try? await Task.sleep(for: .milliseconds(400))
+                sendCode(code(for: key))
+            }
+            return
+        }
         sendCode(code(for: key))
     }
 
@@ -146,9 +158,27 @@ import Foundation
         }
     }
 
-    /// Samsung replaces the whole text field, so send the full text each time.
+    /// Samsung replaces the whole text field with each update and tends to keep only the first update per
+    /// keyboard session, so wait until typing pauses and send the full text once.
     func type(_ text: String, previous: String) {
-        guard connected, let task else { return }
+        typedText = text
+        typingDelay?.cancel()
+        typingDelay = Task { [weak self] in
+            try? await Task.sleep(for: .milliseconds(700))
+            guard !Task.isCancelled else { return }
+            self?.flushTyping()
+        }
+    }
+
+    /// Sends the waiting text now, or right after the connection comes back if it's reconnecting.
+    private func flushTyping() {
+        typingDelay?.cancel()
+        guard let text = typedText else { return }
+        guard connected, let task else {
+            if task == nil { connect() }
+            return
+        }
+        typedText = nil
         let payload: [String: Any] = [
             "method": "ms.remote.control",
             "params": [
@@ -157,7 +187,14 @@ import Foundation
                 "TypeOfRemote": "SendInputString",
             ],
         ]
-        task.send(.string(payload.jsonString)) { _ in }
+        task.send(.string(payload.jsonString)) { [weak self] error in
+            guard error != nil else { return }
+            Task { @MainActor in
+                guard let self else { return }
+                if self.typedText == nil { self.typedText = text }
+                self.reconnect()
+            }
+        }
     }
 
     func isReachable() async -> Bool {
@@ -278,6 +315,7 @@ import Foundation
             if let token = (json["data"] as? [String: Any])?["token"] as? String { store["token"] = token }
             connected = true
             timeoutRetries = 0
+            flushTyping()
             connectTimeout?.cancel()
             onStatus?(.connected)
             if let task { startHeartbeat(on: task) }

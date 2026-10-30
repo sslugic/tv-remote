@@ -58,7 +58,7 @@ struct KeyboardSheet: View {
     var body: some View {
         VStack(spacing: 14) {
             Text("Type on your TV").font(.headline)
-            Text("Open a search box on the TV first, then type here.")
+            Text("Open a search box on the TV first, then type here. Some TVs take the text when you pause.")
                 .font(.footnote).foregroundStyle(.secondary)
             TextField("Search or type", text: $text)
                 .textFieldStyle(.roundedBorder)
