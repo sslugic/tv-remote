@@ -110,6 +110,18 @@ import Network
     func submitCode(_ code: String) { driver?.submitCode(code) }
     func type(_ text: String, previous: String) { driver?.type(text, previous: previous) }
 
+    /// Opens YouTube on the TV with search results for `query`. False if the TV doesn't offer YouTube over DIAL.
+    func searchYouTube(_ query: String) async -> Bool {
+        guard let host = current?.host else { return false }
+        return await YouTubeSearch.search(query, host: host)
+    }
+
+    /// Opens the TV's own search and types `query` into it once its keyboard is open.
+    func searchOnTV(_ query: String) {
+        send(.search)
+        driver?.type(query, previous: "")
+    }
+
     /// Runs `action` once the TV is connected, connecting first if needed. Used by Siri, widgets and the watch.
     func whenConnected(_ action: @escaping (RemoteController) -> Void) async throws {
         if status != .connected { connect() }

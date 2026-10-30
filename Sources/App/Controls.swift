@@ -141,3 +141,69 @@ struct KeyboardSheet: View {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) { slider.value = value }
     }
 }
+
+/// Type what to watch, then search YouTube directly (opens YouTube on the results) or the TV's own search.
+struct SearchSheet: View {
+    @EnvironmentObject private var remote: RemoteController
+    @Environment(\.dismiss) private var dismiss
+    @State private var query = ""
+    @State private var searching = false
+    @State private var message: String?
+    @FocusState private var focused: Bool
+
+    private var trimmed: String { query.trimmingCharacters(in: .whitespaces) }
+
+    var body: some View {
+        VStack(spacing: 14) {
+            Text("Search on your TV").font(.headline)
+            TextField("What do you want to watch?", text: $query)
+                .textFieldStyle(.roundedBorder)
+                .autocorrectionDisabled()
+                .submitLabel(.search)
+                .focused($focused)
+                .onSubmit { searchYouTube() }
+            HStack(spacing: 10) {
+                Button(action: searchYouTube) {
+                    Label("YouTube", systemImage: "play.rectangle.fill")
+                        .frame(maxWidth: .infinity)
+                }
+                .buttonStyle(.borderedProminent)
+                .tint(.red)
+                Button {
+                    remote.searchOnTV(trimmed)
+                    dismiss()
+                } label: {
+                    Label("TV search", systemImage: "tv")
+                        .frame(maxWidth: .infinity)
+                }
+                .buttonStyle(.bordered)
+            }
+            .controlSize(.large)
+            .disabled(trimmed.isEmpty || searching)
+            if let message {
+                Text(message).font(.footnote).foregroundStyle(.secondary).multilineTextAlignment(.center)
+            } else {
+                Text("YouTube opens straight on the results. TV search uses the TV's own search, which covers its other apps.")
+                    .font(.footnote).foregroundStyle(.secondary).multilineTextAlignment(.center)
+            }
+        }
+        .padding(20)
+        .presentationDetents([.height(260)])
+        .onAppear { focused = true }
+    }
+
+    private func searchYouTube() {
+        guard !trimmed.isEmpty else { return }
+        searching = true
+        message = nil
+        Task {
+            let ok = await remote.searchYouTube(trimmed)
+            searching = false
+            if ok {
+                dismiss()
+            } else {
+                message = "This TV doesn't let apps open YouTube searches. Try TV search instead."
+            }
+        }
+    }
+}

@@ -49,6 +49,7 @@ struct RemoteView: View {
 
     @State private var showingPicker = false
     @State private var showingKeyboard = false
+    @State private var showingSearch = false
     @State private var showingSleep = false
     @State private var code = ""
     @StateObject private var volumeButtons = VolumeButtons()
@@ -98,6 +99,7 @@ struct RemoteView: View {
         .background(LinearGradient(colors: theme.background, startPoint: .top, endPoint: .bottom).ignoresSafeArea())
         .sheet(isPresented: $showingPicker) { TVPicker() }
         .sheet(isPresented: $showingKeyboard) { KeyboardSheet() }
+        .sheet(isPresented: $showingSearch) { SearchSheet() }
         .confirmationDialog("Sleep timer", isPresented: $showingSleep, titleVisibility: .visible) {
             ForEach([15, 30, 45, 60, 90, 120], id: \.self) { minutes in
                 Button("\(minutes) minutes") { remote.startSleepTimer(minutes: minutes) }
@@ -183,14 +185,7 @@ struct RemoteView: View {
             tool(prefs.padStyle == .dpad ? "hand.draw" : "dpad", prefs.padStyle == .dpad ? "Swipe" : "Arrows") {
                 prefs.padStyle = prefs.padStyle == .dpad ? .trackpad : .dpad
             }
-            tool("magnifyingglass", "Search") {
-                // Open the TV's search, then the phone keyboard once the search box is up.
-                press(.search)
-                Task {
-                    try? await Task.sleep(for: .milliseconds(1200))
-                    showingKeyboard = true
-                }
-            }
+            tool("magnifyingglass", "Search") { showingSearch = true }
             tool("keyboard", "Type") { showingKeyboard = true }
             if !AppInfo.isAppStore {
                 tool("moon.zzz", sleepLabel, active: remote.sleepAt != nil) { showingSleep = true }
