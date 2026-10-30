@@ -15,6 +15,8 @@ import Network
     @Published private(set) var installedApps: Set<StreamingApp>?
     @Published private(set) var sleepAt: Date?
     @Published private(set) var waking = false
+    /// Whether the TV's on-screen keyboard is open, or nil if this TV doesn't report it.
+    @Published private(set) var tvKeyboardOpen: Bool?
 
     private var driver: TVDriver?
     private var sleepTask: Task<Void, Never>?
@@ -86,6 +88,8 @@ import Network
         }
         driver.onName = { [weak self] name in self?.update(device) { $0.name = name } }
         driver.onMAC = { [weak self] mac in self?.update(device) { $0.mac = mac } }
+        driver.onKeyboard = { [weak self] open in self?.tvKeyboardOpen = open }
+        tvKeyboardOpen = nil
         self.driver = driver
         driver.connect()
     }

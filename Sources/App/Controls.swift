@@ -58,8 +58,7 @@ struct KeyboardSheet: View {
     var body: some View {
         VStack(spacing: 14) {
             Text("Type on your TV").font(.headline)
-            Text("Open a search box on the TV first, then type here. Some TVs take the text when you pause.")
-                .font(.footnote).foregroundStyle(.secondary)
+            keyboardStatus
             TextField("Search or type", text: $text)
                 .textFieldStyle(.roundedBorder)
                 .autocorrectionDisabled()
@@ -76,8 +75,23 @@ struct KeyboardSheet: View {
             }
         }
         .padding(20)
-        .presentationDetents([.height(220)])
+        .presentationDetents([.height(240)])
         .onAppear { focused = true }
+    }
+
+    @ViewBuilder
+    private var keyboardStatus: some View {
+        switch remote.tvKeyboardOpen {
+        case true?:
+            Label("TV keyboard is open. Your text goes to the TV when you pause.", systemImage: "checkmark.circle.fill")
+                .font(.footnote).foregroundStyle(.green)
+        case false?:
+            Label("Waiting for the TV's keyboard. Apps like YouTube use their own keyboard, which can't receive typing; use Search to open the TV's search instead.", systemImage: "hourglass")
+                .font(.footnote).foregroundStyle(.secondary)
+        case nil:
+            Text("Open a search box on the TV first, then type here. Your text goes to the TV when you pause.")
+                .font(.footnote).foregroundStyle(.secondary)
+        }
     }
 }
 

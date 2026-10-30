@@ -6,6 +6,7 @@ import Foundation
     var onStatus: ((DriverStatus) -> Void)?
     var onName: ((String) -> Void)?
     var onMAC: ((String) -> Void)?
+    var onKeyboard: ((Bool) -> Void)?
 
     private let device: TVDevice
     private let store: DeviceStore
@@ -16,6 +17,9 @@ import Foundation
     /// Text waiting to go to the TV keyboard, sent once typing pauses.
     private var typedText: String?
     private var typingDelay: Task<Void, Never>?
+    /// The TV only accepts typed text while its own keyboard is open; it tells us with imeStart/imeEnd.
+    private var keyboardOpen = false
+    private var keyboardWait: Task<Void, Never>?
     private var heartbeat: Task<Void, Never>?
     private var connectTimeout: Task<Void, Never>?
     private var timeoutRetries = 0
@@ -71,6 +75,15 @@ import Foundation
     }
 
     func send(_ key: RemoteKey) {
+        // Samsung's search key does nothing inside apps like YouTube, so go Home first.
+        if key == .search {
+            sendCode("KEY_HOME")
+            Task {
+                try? await Task.sleep(for: .milliseconds(2500))
+                sendCode("KEY_SEARCH")
+            }
+            return
+        }
         // Enter right after typing: deliver the text first so the search uses all of it.
         if key == .ok, typedText != nil {
             flushTyping()
@@ -170,12 +183,27 @@ import Foundation
         }
     }
 
-    /// Sends the waiting text now, or right after the connection comes back if it's reconnecting.
+    /// Sends the waiting text once the connection is up and the TV's keyboard is open.
+    /// Text sent before the keyboard opens is dropped by the TV (it can take several seconds to open).
+    /// Some models never report the keyboard, so after a while send anyway.
     private func flushTyping() {
         typingDelay?.cancel()
         guard let text = typedText else { return }
         guard connected, let task else {
             if task == nil { connect() }
+            return
+        }
+        guard keyboardOpen else {
+            if keyboardWait == nil {
+                keyboardWait = Task { [weak self] in
+                    try? await Task.sleep(for: .seconds(12))
+                    guard !Task.isCancelled, let self else { return }
+                    self.keyboardWait = nil
+                    self.keyboardOpen = true
+                    self.flushTyping()
+                    self.keyboardOpen = false
+                }
+            }
             return
         }
         typedText = nil
@@ -319,10 +347,24 @@ import Foundation
             flushTyping()
             connectTimeout?.cancel()
             onStatus?(.connected)
+            onKeyboard?(keyboardOpen)
             if let task { startHeartbeat(on: task) }
             let held = pending
             pending = []
             held.forEach(sendCode)
+        case "ms.remote.imeStart":
+            keyboardOpen = true
+            keyboardWait?.cancel()
+            keyboardWait = nil
+            onKeyboard?(true)
+            // Give the keyboard a moment to take focus, then send anything typed while it was opening.
+            Task {
+                try? await Task.sleep(for: .milliseconds(300))
+                flushTyping()
+            }
+        case "ms.remote.imeEnd":
+            keyboardOpen = false
+            onKeyboard?(false)
         case "ms.channel.unauthorized":
             store["token"] = nil
             onStatus?(.failed("Denied on the TV. Reconnect and choose Allow."))

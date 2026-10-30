@@ -94,6 +94,8 @@ enum DriverStatus: Equatable {
     var onName: ((String) -> Void)? { get set }
     /// Called when the driver learns the TV's MAC address.
     var onMAC: ((String) -> Void)? { get set }
+    /// Called when the TV's own on-screen keyboard opens (true) or closes (false), for TVs that report it.
+    var onKeyboard: ((Bool) -> Void)? { get set }
     func connect()
     func disconnect()
     func send(_ key: RemoteKey)
@@ -118,6 +120,10 @@ extension TVDriver {
     func finishPowerOn() {}
     func isReachable() async -> Bool { true }
     var onMAC: ((String) -> Void)? {
+        get { nil }
+        set {}
+    }
+    var onKeyboard: ((Bool) -> Void)? {
         get { nil }
         set {}
     }
