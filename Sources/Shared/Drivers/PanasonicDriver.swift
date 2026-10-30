@@ -84,6 +84,7 @@ import Foundation
         case .hdmi3: "NRC_HDMI3"
         case .hdmi4: "NRC_HDMI4"
         case .settings: "NRC_MENU-ONOFF"
+        case .search: "NRC_HOME-ONOFF" // no search key; Home has the search bar
         case .exit: "NRC_CANCEL-ONOFF"
         }
     }

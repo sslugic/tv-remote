@@ -54,6 +54,7 @@ import Foundation
         case .hdmi3: request("ssap://tv/switchInput", payload: ["inputId": "HDMI_3"])
         case .hdmi4: request("ssap://tv/switchInput", payload: ["inputId": "HDMI_4"])
         case .settings: pointerButton("MENU")
+        case .search: request("ssap://system.launcher/launch", payload: ["id": "com.webos.app.voice"])
         case .exit: pointerButton("EXIT")
         case .playPause:
             playing.toggle()

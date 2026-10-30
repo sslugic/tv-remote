@@ -266,6 +266,7 @@ import Foundation
         case .hdmi3: "KEY_HDMI3"
         case .hdmi4: "KEY_HDMI4"
         case .settings: "KEY_MENU"
+        case .search: "KEY_SEARCH"
         case .exit: "KEY_EXIT"
         }
     }

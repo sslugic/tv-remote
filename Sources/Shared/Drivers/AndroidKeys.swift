@@ -26,6 +26,7 @@ enum AndroidKeys {
         case .hdmi3: 245
         case .hdmi4: 246
         case .settings: 176
+        case .search: 84
         case .exit: 4 // Android TV has no exit key; Back closes menus
         }
     }

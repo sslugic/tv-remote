@@ -158,6 +158,7 @@ import Foundation
         case .channelDown: (8, 0)
         case .playPause: playing ? (2, 3) : (2, 2)
         case .settings: (4, 8)
+        case .search: (4, 15) // no search key; Home has the search bar
         case .exit: (9, 0)
         case .tv, .hdmi1, .hdmi2, .hdmi3, .hdmi4: nil
         }

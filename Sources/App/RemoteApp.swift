@@ -183,6 +183,14 @@ struct RemoteView: View {
             tool(prefs.padStyle == .dpad ? "hand.draw" : "dpad", prefs.padStyle == .dpad ? "Swipe" : "Arrows") {
                 prefs.padStyle = prefs.padStyle == .dpad ? .trackpad : .dpad
             }
+            tool("magnifyingglass", "Search") {
+                // Open the TV's search, then the phone keyboard once the search box is up.
+                press(.search)
+                Task {
+                    try? await Task.sleep(for: .milliseconds(1200))
+                    showingKeyboard = true
+                }
+            }
             tool("keyboard", "Type") { showingKeyboard = true }
             if !AppInfo.isAppStore {
                 tool("moon.zzz", sleepLabel, active: remote.sleepAt != nil) { showingSleep = true }

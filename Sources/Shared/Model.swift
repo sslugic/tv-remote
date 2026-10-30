@@ -24,7 +24,7 @@ enum RemoteKey: String, CaseIterable {
     case channelUp, channelDown
     case playPause
     case tv, hdmi1, hdmi2, hdmi3, hdmi4, nextHDMI
-    case settings, exit
+    case settings, exit, search
 }
 
 enum TVBrand: String, Codable, CaseIterable, Identifiable {

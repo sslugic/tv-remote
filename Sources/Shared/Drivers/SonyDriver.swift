@@ -100,6 +100,7 @@ import Foundation
         case .hdmi3: "Hdmi3"
         case .hdmi4: "Hdmi4"
         case .settings: "ActionMenu"
+        case .search: "Search"
         case .exit: "Exit"
         }
     }

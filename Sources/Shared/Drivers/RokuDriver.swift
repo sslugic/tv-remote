@@ -101,6 +101,7 @@ import Foundation
         case .hdmi3: "InputHDMI3"
         case .hdmi4: "InputHDMI4"
         case .settings: "Info" // Roku has no settings key; * opens the options menu
+        case .search: "Search"
         case .exit: "Home"
         }
     }

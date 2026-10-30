@@ -14,7 +14,7 @@ extension RemoteKey: AppEnum {
         .volumeUp: "Volume Up", .volumeDown: "Volume Down", .mute: "Mute",
         .channelUp: "Channel Up", .channelDown: "Channel Down", .playPause: "Play/Pause",
         .tv: "TV Input", .hdmi1: "HDMI 1", .hdmi2: "HDMI 2", .hdmi3: "HDMI 3", .hdmi4: "HDMI 4", .nextHDMI: "Next HDMI",
-        .settings: "TV Settings", .exit: "Exit",
+        .settings: "TV Settings", .exit: "Exit", .search: "Search",
     ]
 }
 
