@@ -116,6 +116,27 @@ import Network
         return await YouTubeSearch.search(query, host: host)
     }
 
+    func currentApp() async -> CurrentApp { await driver?.currentApp() ?? .unknown }
+
+    /// Searches wherever the TV is: YouTube opens straight on its results (its own keyboard can't take typing),
+    /// other apps get the text typed into their search box, and with no app open the TV's own search is used.
+    /// Returns a note for the user when they still need to do something, or nil when it's done.
+    func search(_ query: String) async -> String? {
+        switch await currentApp() {
+        case .app(.youtube):
+            if await searchYouTube(query) { return nil }
+            type(query, previous: "")
+            return "Open YouTube's search box. Your text goes in when its keyboard opens."
+        case .app(let app):
+            type(query, previous: "")
+            if tvKeyboardOpen == true { return nil }
+            return "Open \(app.label)'s search box on the TV. Your text goes in as soon as its keyboard opens, then tap Enter."
+        case .tv, .unknown:
+            searchOnTV(query)
+            return nil
+        }
+    }
+
     /// Opens the TV's own search and types `query` into it once its keyboard is open.
     func searchOnTV(_ query: String) {
         send(.search)

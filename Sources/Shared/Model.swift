@@ -17,6 +17,15 @@ enum AppInfo {
     }
 }
 
+/// What's on the TV screen, for picking how to search.
+enum CurrentApp: Equatable {
+    case app(StreamingApp)
+    /// The TV's home screen, live TV or an app we don't know.
+    case tv
+    /// This TV can't say.
+    case unknown
+}
+
 enum RemoteKey: String, CaseIterable {
     case power, home, back, input
     case up, down, left, right, ok
@@ -107,6 +116,8 @@ enum DriverStatus: Equatable {
     func type(_ text: String, previous: String)
     /// Which of the streaming apps are installed, or nil if the TV can't say.
     func installedApps() async -> Set<StreamingApp>?
+    /// The app currently on screen.
+    func currentApp() async -> CurrentApp
     /// Called once the driver connects after a wake-up, to finish turning the screen on.
     /// Must never turn a TV that's already on back off.
     func finishPowerOn()
@@ -117,6 +128,7 @@ enum DriverStatus: Equatable {
 extension TVDriver {
     func submitCode(_ code: String) {}
     func installedApps() async -> Set<StreamingApp>? { nil }
+    func currentApp() async -> CurrentApp { .unknown }
     func finishPowerOn() {}
     func isReachable() async -> Bool { true }
     var onMAC: ((String) -> Void)? {

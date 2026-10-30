@@ -246,6 +246,19 @@ import Foundation
         }
     }
 
+    /// Samsung reports "visible": true for the app in the foreground.
+    func currentApp() async -> CurrentApp {
+        for app in StreamingApp.allCases {
+            for id in app.samsungIDs {
+                let url = URL(string: "http://\(device.host):8001/api/v2/applications/\(id)")!
+                guard let (data, _) = try? await LocalTLS.session.data(from: url),
+                      let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any] else { continue }
+                if json["visible"] as? Bool == true { return .app(app) }
+            }
+        }
+        return .tv
+    }
+
     func installedApps() async -> Set<StreamingApp>? {
         var installed = Set<StreamingApp>()
         for app in StreamingApp.allCases {

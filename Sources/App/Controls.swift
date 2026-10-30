@@ -142,68 +142,67 @@ struct KeyboardSheet: View {
     }
 }
 
-/// Type what to watch, then search YouTube directly (opens YouTube on the results) or the TV's own search.
+/// One search box that searches wherever the TV is: inside the app on screen, or the TV's own search.
 struct SearchSheet: View {
     @EnvironmentObject private var remote: RemoteController
     @Environment(\.dismiss) private var dismiss
     @State private var query = ""
+    @State private var target: CurrentApp?
     @State private var searching = false
     @State private var message: String?
     @FocusState private var focused: Bool
 
     private var trimmed: String { query.trimmingCharacters(in: .whitespaces) }
 
+    private var targetLabel: String {
+        switch target {
+        case .app(let app)?: "Searches in \(app.label)"
+        case .tv?: "Searches the TV"
+        case .unknown?: "Searches the TV"
+        case nil: "Checking what's on the TV…"
+        }
+    }
+
     var body: some View {
         VStack(spacing: 14) {
-            Text("Search on your TV").font(.headline)
+            Text("Search").font(.headline)
             TextField("What do you want to watch?", text: $query)
                 .textFieldStyle(.roundedBorder)
                 .autocorrectionDisabled()
                 .submitLabel(.search)
                 .focused($focused)
-                .onSubmit { searchYouTube() }
-            HStack(spacing: 10) {
-                Button(action: searchYouTube) {
-                    Label("YouTube", systemImage: "play.rectangle.fill")
-                        .frame(maxWidth: .infinity)
-                }
-                .buttonStyle(.borderedProminent)
-                .tint(.red)
-                Button {
-                    remote.searchOnTV(trimmed)
-                    dismiss()
-                } label: {
-                    Label("TV search", systemImage: "tv")
-                        .frame(maxWidth: .infinity)
-                }
-                .buttonStyle(.bordered)
+                .onSubmit(runSearch)
+            Button(action: runSearch) {
+                Label(searching ? "Searching…" : "Search", systemImage: "magnifyingglass")
+                    .frame(maxWidth: .infinity)
             }
+            .buttonStyle(.borderedProminent)
             .controlSize(.large)
             .disabled(trimmed.isEmpty || searching)
             if let message {
                 Text(message).font(.footnote).foregroundStyle(.secondary).multilineTextAlignment(.center)
+                HStack {
+                    Button("Enter") { remote.send(.ok) }.buttonStyle(.bordered)
+                    Button("Done") { dismiss() }.buttonStyle(.bordered)
+                }
             } else {
-                Text("YouTube opens straight on the results. TV search uses the TV's own search, which covers its other apps.")
-                    .font(.footnote).foregroundStyle(.secondary).multilineTextAlignment(.center)
+                Text(targetLabel).font(.footnote).foregroundStyle(.secondary)
             }
         }
         .padding(20)
-        .presentationDetents([.height(260)])
+        .presentationDetents([.height(message == nil ? 230 : 290)])
         .onAppear { focused = true }
+        .task { target = await remote.currentApp() }
     }
 
-    private func searchYouTube() {
+    private func runSearch() {
         guard !trimmed.isEmpty else { return }
         searching = true
         message = nil
         Task {
-            let ok = await remote.searchYouTube(trimmed)
+            let note = await remote.search(trimmed)
             searching = false
-            if ok {
-                dismiss()
-            } else {
-                message = "This TV doesn't let apps open YouTube searches. Try TV search instead."
-            }
+            if let note { message = note } else { dismiss() }
         }
     }
 }

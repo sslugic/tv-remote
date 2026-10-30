@@ -71,6 +71,13 @@ import Foundation
         Task { _ = try? await LocalTLS.session.data(for: request) }
     }
 
+    func currentApp() async -> CurrentApp {
+        guard let (data, _) = try? await LocalTLS.session.data(from: URL(string: "http://\(device.host):8060/query/active-app")!),
+              let xml = String(data: data, encoding: .utf8) else { return .unknown }
+        for app in StreamingApp.allCases where xml.contains("id=\"\(app.rokuID)\"") { return .app(app) }
+        return .tv
+    }
+
     func installedApps() async -> Set<StreamingApp>? {
         guard let (data, _) = try? await LocalTLS.session.data(from: URL(string: "http://\(device.host):8060/query/apps")!),
               let xml = String(data: data, encoding: .utf8) else { return nil }
