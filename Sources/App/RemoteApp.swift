@@ -35,6 +35,10 @@ struct RemoteApp: App {
                 remote.connect()
                 remote.scan()
             }
+            // Re-scan every 10 minutes while the app is open so the TV list stays current.
+            .onReceive(Timer.publish(every: 600, on: .main, in: .common).autoconnect()) { _ in
+                if phase == .active { remote.scan() }
+            }
             .onReceive(remote.$status) { _ in LiveActivity.shared.update(remote) }
             .onReceive(remote.$sleepAt) { _ in LiveActivity.shared.update(remote) }
         }

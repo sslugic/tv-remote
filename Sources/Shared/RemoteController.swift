@@ -52,6 +52,17 @@ import Network
             if devices[i].name.hasPrefix("Google TV (") || devices[i].name == "LG TV" { devices[i].name = device.name }
             if devices[i].mac == nil { devices[i].mac = device.mac }
             if current?.id == device.id { current = devices[i] }
+        } else if let mac = device.mac,
+                  let i = devices.firstIndex(where: { $0.brand == device.brand && $0.mac?.lowercased() == mac.lowercased() }) {
+            // Same TV at a new address (the router gave it a new IP): move it instead of listing it twice.
+            let old = devices[i]
+            moveStoredValues(from: old, to: device)
+            devices[i].host = device.host
+            if current?.id == old.id {
+                current = devices[i]
+                UserDefaults.standard.set(devices[i].id, forKey: "currentDevice")
+                connect()
+            }
         } else {
             devices.append(device)
             devices.sort { $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending }
@@ -157,11 +168,29 @@ import Network
     func scan() {
         guard !scanning else { return }
         scanning = true
+        seenInScan = []
         Task {
-            await Discovery.scan { [weak self] device in self?.add(device) }
+            await Discovery.scan { [weak self] device in
+                self?.seenInScan.insert(device.id)
+                self?.add(device)
+            }
+            pruneUnseen()
             scanning = false
             if current == nil, let first = devices.first { select(first) }
         }
+    }
+
+    private var seenInScan: Set<String> = []
+
+    /// After a scan, forget TVs that didn't answer so the list shows only what's on the network now.
+    /// The selected TV stays even if it's off, so it can still be woken. Skipped when the scan found
+    /// nothing at all (off Wi-Fi or a network hiccup) so the list isn't wiped by mistake.
+    private func pruneUnseen() {
+        guard !seenInScan.isEmpty else { return }
+        let stale = devices.filter { !seenInScan.contains($0.id) && $0.id != current?.id }
+        guard !stale.isEmpty else { return }
+        devices.removeAll { stale.contains($0) }
+        save()
     }
 
     // MARK: - Power on
@@ -221,6 +250,17 @@ import Network
 
     private func save() {
         if let data = try? JSONEncoder().encode(devices) { UserDefaults.standard.set(data, forKey: "devices") }
+    }
+
+    /// Carries pairing tokens and other per-TV values over when a TV's address changes.
+    private func moveStoredValues(from old: TVDevice, to new: TVDevice) {
+        let defaults = UserDefaults.standard
+        let suffix = "-\(old.id)"
+        for key in defaults.dictionaryRepresentation().keys where key.hasSuffix(suffix) {
+            let base = String(key.dropLast(suffix.count))
+            defaults.set(defaults.object(forKey: key), forKey: "\(base)-\(new.id)")
+            defaults.removeObject(forKey: key)
+        }
     }
 
     private func migrateSamsungToken(host: String) {

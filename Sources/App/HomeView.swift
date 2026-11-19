@@ -41,7 +41,7 @@ struct HomeView: View {
 
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 22) {
+            VStack(alignment: .leading, spacing: 14) {
                 HStack(alignment: .top) {
                     VStack(alignment: .leading, spacing: 6) {
                         Text(AppInfo.name)
@@ -59,15 +59,18 @@ struct HomeView: View {
                     }
                     .accessibilityLabel("Settings")
                 }
-                .padding(.top, 12)
+                .padding(.top, 4)
 
                 proceedCard
 
                 Text("More from us")
-                    .font(.title3.bold())
-                    .padding(.top, 8)
+                    .font(.headline)
+                    .foregroundStyle(.secondary)
+                    .padding(.top, 6)
 
-                ForEach(Promo.all) { PromoBanner(promo: $0) }
+                VStack(spacing: 10) {
+                    ForEach(Promo.all) { PromoBanner(promo: $0) }
+                }
             }
             .padding(20)
         }
@@ -100,7 +103,7 @@ struct HomeView: View {
                 Image(systemName: "arrow.right.circle.fill")
                     .font(.system(size: 34))
             }
-            .padding(18)
+            .padding(16)
             .background(
                 LinearGradient(
                     colors: [Color(red: 0.45, green: 0.25, blue: 0.95), Color(red: 0.22, green: 0.10, blue: 0.55)],
@@ -156,6 +159,16 @@ struct Promo: Identifiable {
             colors: [Color(red: 0.20, green: 0.20, blue: 0.45), Color(red: 0.04, green: 0.04, blue: 0.07)],
             accent: Color(red: 0.51, green: 0.55, blue: 0.97)
         ),
+        Promo(
+            id: "stashly",
+            name: "Stashly",
+            tagline: "AI home inventory from one photo",
+            detail: "Snap a shelf or a box and Stashly lists every item, what it's worth and where it's stored.",
+            image: "promo-stashly",
+            url: URL(string: "https://sslugic.github.io/stashly-site/")!,
+            colors: [Color(red: 0.30, green: 0.36, blue: 0.10), Color(red: 0.07, green: 0.08, blue: 0.04)],
+            accent: Color(red: 0.72, green: 0.90, blue: 0.36)
+        ),
     ]
 }
 
@@ -165,42 +178,38 @@ struct PromoBanner: View {
 
     var body: some View {
         Button { openURL(promo.url) } label: {
-            VStack(alignment: .leading, spacing: 14) {
-                HStack(spacing: 14) {
-                    Image(promo.image)
-                        .resizable()
-                        .frame(width: 60, height: 60)
-                        .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
-                    VStack(alignment: .leading, spacing: 2) {
-                        Text(promo.name).font(.title3.bold())
-                        Text(promo.tagline).font(.subheadline.weight(.semibold)).foregroundStyle(promo.accent)
-                    }
+            HStack(spacing: 12) {
+                Image(promo.image)
+                    .resizable()
+                    .frame(width: 46, height: 46)
+                    .clipShape(RoundedRectangle(cornerRadius: 11, style: .continuous))
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(promo.name).font(.headline)
+                    Text(promo.tagline)
+                        .font(.footnote.weight(.semibold))
+                        .foregroundStyle(promo.accent)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.85)
                 }
-                Text(promo.detail)
-                    .font(.footnote)
-                    .foregroundStyle(.white.opacity(0.8))
-                    .fixedSize(horizontal: false, vertical: true)
-                HStack(spacing: 6) {
-                    Text("Visit \(promo.url.host() ?? "website")")
-                    Image(systemName: "arrow.up.right")
-                }
-                .font(.footnote.bold())
-                .foregroundStyle(.black)
-                .padding(.horizontal, 14)
-                .padding(.vertical, 8)
-                .background(promo.accent, in: Capsule())
+                Spacer(minLength: 4)
+                Image(systemName: "arrow.up.right")
+                    .font(.footnote.bold())
+                    .foregroundStyle(.black)
+                    .frame(width: 28, height: 28)
+                    .background(promo.accent, in: Circle())
             }
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(18)
+            .padding(.horizontal, 14)
+            .padding(.vertical, 10)
             .background(
                 LinearGradient(colors: promo.colors, startPoint: .topLeading, endPoint: .bottomTrailing),
-                in: RoundedRectangle(cornerRadius: 22, style: .continuous)
+                in: RoundedRectangle(cornerRadius: 18, style: .continuous)
             )
             .overlay(
-                RoundedRectangle(cornerRadius: 22, style: .continuous)
+                RoundedRectangle(cornerRadius: 18, style: .continuous)
                     .stroke(promo.accent.opacity(0.35), lineWidth: 1)
             )
         }
         .buttonStyle(.plain)
+        .accessibilityHint(promo.detail)
     }
 }
