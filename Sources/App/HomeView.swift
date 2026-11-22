@@ -169,6 +169,16 @@ struct Promo: Identifiable {
             colors: [Color(red: 0.30, green: 0.36, blue: 0.10), Color(red: 0.07, green: 0.08, blue: 0.04)],
             accent: Color(red: 0.72, green: 0.90, blue: 0.36)
         ),
+        Promo(
+            id: "testera",
+            name: "Testera",
+            tagline: "Agentic test management",
+            detail: "Free test management with hosted MCP for Claude, Cursor, ChatGPT and your own agents.",
+            image: "promo-testera",
+            url: URL(string: "https://testera.io")!,
+            colors: [Color(red: 0.06, green: 0.24, blue: 0.20), Color(red: 0.03, green: 0.06, blue: 0.05)],
+            accent: Color(red: 0.30, green: 0.80, blue: 0.64)
+        ),
     ]
 }
 
