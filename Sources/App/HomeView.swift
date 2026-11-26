@@ -128,6 +128,18 @@ struct Promo: Identifiable {
     let colors: [Color]
     let accent: Color
 
+    /// The link with UTM tags, so each site's analytics can count visits from this banner.
+    var trackedURL: URL {
+        guard var parts = URLComponents(url: url, resolvingAgainstBaseURL: false) else { return url }
+        parts.queryItems = (parts.queryItems ?? []) + [
+            URLQueryItem(name: "utm_source", value: "simply-remote"),
+            URLQueryItem(name: "utm_medium", value: "app"),
+            URLQueryItem(name: "utm_campaign", value: "more-from-us"),
+            URLQueryItem(name: "utm_content", value: id),
+        ]
+        return parts.url ?? url
+    }
+
     static let all = [
         Promo(
             id: "pulse",
@@ -197,7 +209,7 @@ struct PromoBanner: View {
     @Environment(\.openURL) private var openURL
 
     var body: some View {
-        Button { openURL(promo.url) } label: {
+        Button { openURL(promo.trackedURL) } label: {
             HStack(spacing: 12) {
                 Image(promo.image)
                     .resizable()
