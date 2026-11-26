@@ -44,7 +44,7 @@ targets:
           INFOPLIST_KEY_CFBundleDisplayName: Simply Remote TV
           INFOPLIST_KEY_NSLocalNetworkUsageDescription: Simply Remote TV finds and controls the TVs on your Wi-Fi.
           SWIFT_ACTIVE_COMPILATION_CONDITIONS: APP_STORE
-          MARKETING_VERSION: "1.4"
+          MARKETING_VERSION: "1.5"
   SimplyRemoteWidgets:
     type: app-extension
     platform: iOS
@@ -61,4 +61,4 @@ targets:
         AppStore:
           INFOPLIST_KEY_CFBundleDisplayName: Simply Remote TV
           SWIFT_ACTIVE_COMPILATION_CONDITIONS: APP_STORE
-          MARKETING_VERSION: "1.4"
+          MARKETING_VERSION: "1.5"
