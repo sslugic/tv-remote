@@ -179,6 +179,16 @@ struct Promo: Identifiable {
             colors: [Color(red: 0.06, green: 0.24, blue: 0.20), Color(red: 0.03, green: 0.06, blue: 0.05)],
             accent: Color(red: 0.30, green: 0.80, blue: 0.64)
         ),
+        Promo(
+            id: "amem",
+            name: "amem",
+            tagline: "Memory for your AI agents",
+            detail: "Private, searchable memory for Claude Code, Cursor and other agents. Free, and it stays on your machine.",
+            image: "promo-amem",
+            url: URL(string: "https://getamem.com")!,
+            colors: [Color(red: 0.05, green: 0.20, blue: 0.24), Color(red: 0.02, green: 0.04, blue: 0.06)],
+            accent: Color(red: 0.20, green: 0.76, blue: 0.74)
+        ),
     ]
 }
 
